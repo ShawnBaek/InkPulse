@@ -93,6 +93,26 @@ The device never stores Google OAuth tokens, service-account keys, or App Store 
 
 See the [bill of materials](hardware/BOM.csv) and [wiring plan](hardware/WIRING.md) for component and connection details.
 
+## Prototype purchase guide
+
+The links below are reference purchase sources for the mechanically locked v0.1 parts. Indicative prices were checked on August 16, 2026, are shown in USD, and exclude shipping, tax, duties, tools, and any commercial 3D-printing service. Prices and availability vary by destination; these are not affiliate links.
+
+| Part | Qty used | Reference purchase link | Listed price | Allocated to one device |
+| --- | ---: | --- | ---: | ---: |
+| Seeed Studio XIAO ESP32-C6 | 1 | [Seeed Studio](https://www.seeedstudio.com/Seeed-Studio-XIAO-ESP32C6-p-5884.html) | $5.20 each | $5.20 |
+| Waveshare 4.2-inch e-Paper Module V2, black/white | 1 | [Waveshare](https://www.waveshare.com/4.2inch-e-paper-module.htm) | $34.99 each | $34.99 |
+| EBL protected button-top 18650, 3.7 V, 3,000 mAh | 1 cell | [EBL official store](https://www.eblofficial.com/products/brc-18650-batteries) | $9.26 per 2-pack | $4.63 |
+| MPD BH-18650-W holder | 1 | [DigiKey](https://www.digikey.com/en/products/detail/mpd-memory-protection-devices/BH-18650-W/3029217) | $3.64 each | $3.64 |
+| C&K 1101M2S5AQE2 slide switch | 1 | [DigiKey](https://www.digikey.com/en/products/detail/c-k/SWITCH-1101M2S5AQE2/99505) | $8.48 each | $8.48 |
+| Omron/Aratas B3F-1000 tactile switch | 3 | [DigiKey](https://www.digikey.com/en/products/detail/aratas-formerly-omron-components/B3F-1000/33150) | $0.35 each | $1.05 |
+| Blue and black 1.75 mm PETG | About 140 g total | [Prusament PETG color range](https://prusament.com/materials/prusament-petg/) | $29.99 per 1 kg spool | About $4–5 |
+
+The locked electronic parts total approximately **$57.99 per device**. Allow another **$12–22** per device for the allocated PETG, PTC fuse, perfboard or carrier PCB, display harness, wire, insulation, inserts, screws, nuts, foam, and consumables. The resulting **one-device prototype material estimate is $70–80**.
+
+A first order is more expensive because the reference battery is sold as a two-pack and the blue/black enclosure requires two filament colors. Expect approximately **$120–155 at checkout** when buying two full PETG spools and normal retail packs of the remaining hardware. Subsequent units consume only a fraction of those supplies.
+
+Before ordering, confirm that the display is the 103 × 78.5 mm black-and-white module with its SPI driver board—not a raw panel, Pico-specific board, or multicolor variant. The battery link is a dimensional reference, not an electrical certification: measure the purchased protected cell, confirm polarity and holder fit, and perform supervised charging and thermal validation. The PTC, harness, carrier, fasteners, and insulation remain intentionally supplier-neutral until the first physical fit test locks their exact models.
+
 ## 3D model
 
 ![InkPulse OpenSCAD assembly preview](docs/cad-preview.png)
