@@ -4,7 +4,7 @@ InkPulse should answer three questions at a glance:
 
 1. Are people returning?
 2. Are they reaching the core TravelCrumb behavior?
-3. Is the app healthy enough for them to do it?
+3. Is the product generating revenue?
 
 ## Recommended primary screen
 
@@ -15,7 +15,7 @@ InkPulse should answer three questions at a glance:
 | 3 | D7 retention | Shows whether TravelCrumb is becoming a repeat habit |
 | 4 | CRUMBS | Counts successful uses of the core behavior, not generic instrumentation traffic |
 | 5 | USERS | Provides the total registered-account scale without duplicating retention |
-| 6 | Crash-free users | Protects the overall experience and detects release-quality regressions |
+| 6 | Current-month proceeds | Adds a direct business outcome without duplicating retention or activity |
 
 The current product rendering uses this six-metric set.
 
@@ -57,15 +57,19 @@ Count only a successful persisted crumb. Do not increment the metric when the co
 
 For a prototype, GA4 can count a single `crumb_created` event emitted after persistence succeeds. For production, a deduplicated backend count should be the source of truth.
 
-### Crash-free users
+### Current-month proceeds
 
 ```text
-1 - (unique users with at least one fatal crash / all active users)
+estimated developer proceeds for the current calendar month
 ```
 
-Show `CRASH-FREE` instead of raw crash rate so every percentage on the device has a consistent “higher is better” reading. Firebase notes that this metric covers fatal events and that an installation is counted as a user. The selected time range must stay visible or fixed because crash-free percentages are not directly comparable across different time windows.
+Show this as `REVENUE`, with `THIS MONTH` directly below the amount. The initial source is the App Store Connect Sales and Trends proceeds report. Apple defines proceeds as the estimated amount the developer receives after the customer price is reduced by applicable taxes and Apple's commission. Do not label this value as MRR unless TravelCrumb has recurring subscription revenue and the implementation deliberately calculates MRR.
 
-Crash-free percentages are visible in Crashlytics. A custom device pipeline can calculate them from exported Firebase Sessions and Crashlytics data in BigQuery; the public Crashlytics API should not be assumed to expose the dashboard percentage directly.
+The on-screen amount is a compact estimate. Financial reconciliation still belongs in App Store Connect and the accounting system. App Store Connect credentials stay in the iPhone companion app or backend, never on the e-paper device.
+
+### Freshness
+
+`UPDATED 10 MIN AGO` means ten minutes have elapsed since the last fully successful data synchronization and rendered frame. A failed refresh must not reset this clock. When the last successful sync is older than the product threshold, replace the relative label with a visible stale state rather than implying that the dashboard is current.
 
 ## Useful secondary metrics
 
@@ -81,7 +85,7 @@ These are valuable, but the 400 × 300 primary screen should not show all of the
 
 ### Reliability page
 
-- Crash-free sessions by current release
+- Crash-free users and crash-free sessions by current release
 - Sync success rate
 - Crumb-save failure rate
 - API error rate and p95 latency
@@ -99,5 +103,5 @@ These are valuable, but the 400 × 300 primary screen should not show all of the
 - Do not compare tiny cohorts without displaying the cohort size.
 - Do not calculate conversion from raw event totals; deduplicate by user and successful outcome.
 - Do not combine App Store conversion and first-crumb conversion under the same unlabeled definition.
-- Keep a fixed seven-day window for CRUMBS and crash-free users on the primary screen; USERS remains an all-time registered total.
-- Render the metric period or last-sync time when the real firmware UI is implemented.
+- Keep a fixed seven-day window for CRUMBS; USERS remains an all-time registered total and REVENUE uses the current calendar month.
+- Render the last-successful-sync age on every page and do not update it after a failed fetch.
