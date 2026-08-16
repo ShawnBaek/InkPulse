@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="560" viewBox="0 0 1200 560" role="img" aria-labelledby="title desc">
+  <title id="title">InkPulse enclosure exploded view</title>
+  <desc id="desc">Exploded diagram of the front bezel, e-paper module, electronics and battery, rear shell, and battery door.</desc>
+  <rect width="1200" height="560" fill="#f5f1e8"/>
+  <g font-family="-apple-system, BlinkMacSystemFont, Segoe UI, sans-serif" fill="#242424">
+    <text x="70" y="74" font-size="34" font-weight="700">InkPulse Model 42</text>
+    <text x="70" y="108" font-size="18" fill="#666">v0.1 enclosure · exploded fit-check view</text>
+  </g>
+  <g transform="translate(75 160)">
+    <g transform="translate(0 35)">
+      <rect x="0" y="0" width="210" height="166" rx="18" fill="#292929"/>
+      <rect x="24" y="20" width="162" height="126" rx="4" fill="#f3f3ec"/>
+      <text x="105" y="196" text-anchor="middle" font-family="sans-serif" font-size="17">Front bezel</text>
+    </g>
+    <path d="M225 118h62" stroke="#999" stroke-width="2" stroke-dasharray="7 7"/>
+    <g transform="translate(300 42)">
+      <rect x="0" y="0" width="214" height="164" rx="8" fill="#d8d8cf" stroke="#777" stroke-width="3"/>
+      <rect x="25" y="20" width="164" height="124" fill="#f7f7ef" stroke="#bbb"/>
+      <polyline points="43,112 72,92 102,101 132,61 171,74" fill="none" stroke="#222" stroke-width="4"/>
+      <text x="107" y="196" text-anchor="middle" font-family="sans-serif" font-size="17">4.2″ e-paper</text>
+    </g>
+    <path d="M530 118h62" stroke="#999" stroke-width="2" stroke-dasharray="7 7"/>
+    <g transform="translate(605 29)">
+      <rect x="0" y="0" width="230" height="192" rx="18" fill="#dedbd3" stroke="#8d8a83" stroke-width="3"/>
+      <rect x="27" y="26" width="67" height="84" rx="8" fill="#2f5d50"/>
+      <circle cx="60" cy="52" r="6" fill="#d7c55b"/>
+      <rect x="42" y="75" width="37" height="15" fill="#202020"/>
+      <rect x="112" y="28" width="83" height="34" rx="6" fill="#d9aa43"/>
+      <rect x="105" y="87" width="101" height="32" rx="16" fill="#477a63" transform="rotate(90 155 103)"/>
+      <text x="115" y="224" text-anchor="middle" font-family="sans-serif" font-size="17">MCU + 18650</text>
+    </g>
+    <path d="M850 118h62" stroke="#999" stroke-width="2" stroke-dasharray="7 7"/>
+    <g transform="translate(925 22)">
+      <rect x="0" y="0" width="210" height="206" rx="18" fill="#e8e4db" stroke="#969188" stroke-width="3"/>
+      <rect x="35" y="122" width="140" height="48" rx="8" fill="#f5f1e8" stroke="#aaa" stroke-dasharray="5 4"/>
+      <circle cx="205" cy="62" r="7" fill="#555"/>
+      <rect x="197" y="91" width="13" height="30" rx="5" fill="#333"/>
+      <path d="M198 106h11" stroke="#f5f1e8" stroke-width="1.5"/>
+      <text x="105" y="240" text-anchor="middle" font-family="sans-serif" font-size="17">Rear shell + door</text>
+    </g>
+  </g>
+  <g transform="translate(70 482)" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, sans-serif">
+    <rect width="1060" height="1" fill="#ccc5b8"/>
+    <text x="0" y="38" font-size="16" fill="#555">Envelope: 114 × 90 × 27 mm</text>
+    <text x="310" y="38" font-size="16" fill="#555">4 printed parts</text>
+    <text x="555" y="38" font-size="16" fill="#555">USB-C or protected 1-cell Li-ion</text>
+  </g>
+</svg>
