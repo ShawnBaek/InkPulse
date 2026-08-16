@@ -1,25 +1,27 @@
 # InkPulse
 
-![TravelCrumb dashboard product concept](docs/inkpulse-product-concept.png)
+![Example product analytics dashboard](docs/inkpulse-product-concept.png)
 
-InkPulse is a compact desktop device that shows TravelCrumb product metrics, Google Analytics 4 retention data, and current-month App Store proceeds on a 4.2-inch e-paper display. The iPhone companion app retrieves and calculates the data, renders a 400 × 300 monochrome dashboard, and sends it to Embedded Swift firmware over Bluetooth Low Energy.
+InkPulse is a compact desktop device that shows configurable product metrics, Google Analytics 4 retention data, and current-month App Store proceeds on a 4.2-inch e-paper display. The iPhone companion app retrieves and calculates the data, renders a 400 × 300 monochrome dashboard, and sends it to Embedded Swift firmware over Bluetooth Low Energy.
 
 > This repository is a **v0.1 product, hardware, and 3D-printing concept**. The electrical design and battery-life target are not production specifications until they have been validated on a physical prototype.
+
+The bundled product rendering illustrates one app-specific configuration. The app icon, product name, metric labels, and values are replaceable without changing the enclosure or display pipeline.
 
 ## Product model
 
 | Item | v0.1 model |
 | --- | --- |
 | Project name | InkPulse |
-| Product face | TravelCrumb analytics dashboard |
+| Product face | Configurable application analytics dashboard |
 | Model | InkPulse Model 42 |
-| Purpose | TravelCrumb app health, retention, conversion, and content activity |
+| Purpose | At-a-glance retention, conversion, activity, and revenue monitoring |
 | Display | 4.2-inch, 400 × 300, black-and-white e-paper |
 | Connectivity | Bluetooth Low Energy first; Wi-Fi is a later option |
 | Update path | The iPhone renders and sends a compressed 1-bit frame |
 | Controls | One action button plus a two-way previous/next rocker |
 | Enclosure | Approximately 125 × 101 × 40 mm, landscape desktop format |
-| Colorway | TravelCrumb cobalt-blue front and rear enclosure with matte-black controls and screen gasket |
+| Colorway | Cobalt-blue front and rear enclosure with matte-black controls and screen gasket |
 | Power | USB-C 5 V or one removable protected 3.7 V 18650 cell |
 | Firmware | Embedded Swift with ESP-IDF C interoperability |
 
@@ -27,8 +29,8 @@ The default dashboard contains:
 
 - Total registered users
 - Day 1 and Day 7 retention
-- New-user-to-first-crumb conversion
-- Successfully created crumbs in the selected period
+- New-user-to-primary-action conversion
+- Successful primary actions in the selected period
 - Estimated App Store proceeds for the current calendar month
 - Multi-app pagination and the current page position
 - Last-successful-sync freshness, such as `UPDATED 10 MIN AGO`
@@ -40,15 +42,15 @@ The display uses product-specific metrics instead of a generic GA4 `EVENTS` tota
 
 | Display label | Definition | Initial data source |
 | --- | --- | --- |
-| `USERS` | Total registered TravelCrumb accounts | TravelCrumb backend |
+| `USERS` | Total registered application accounts | Application backend |
 | `D1` | Percentage of a new-user cohort that returns on the next calendar day | GA4 cohort report |
 | `D7` | Percentage of a new-user cohort that returns on calendar day 7 | GA4 cohort report |
-| `CONVERSION` | New users who successfully create their first crumb within 24 hours ÷ all new users in the same cohort | Derived from `first_open` and `crumb_created` |
-| `CRUMBS` | Successful crumb creations in the selected period | GA4 `eventCount` filtered to `crumb_created`; the backend should become the production source of truth |
+| `CONVERSION` | New users who complete the application's primary action within 24 hours ÷ all new users in the same cohort | Derived from `first_open` and an app-defined success event |
+| `ACTIVITY` | Successful primary actions in the selected period | GA4 `eventCount` filtered to the app-defined success event; the backend should become the production source of truth |
 | `REVENUE` | Estimated developer proceeds in the current calendar month, after applicable taxes and Apple's commission | App Store Connect Sales and Trends proceeds report |
 | `UPDATED … AGO` | Elapsed time since the last fully successful fetch and rendered-frame update | Companion-app sync state |
 
-`EVENTS` was removed because it combines unrelated analytics events such as screen views, sessions, and button taps. `CRUMBS` directly represents the TravelCrumb behavior the product is intended to encourage.
+`EVENTS` is not recommended because it combines unrelated analytics events such as screen views, sessions, and button taps. `ACTIVITY` should represent the app-specific behavior the product is intended to encourage.
 
 See [Product metrics](docs/METRICS.md) for the recommended dashboard hierarchy, formulas, and future pages.
 
@@ -57,7 +59,7 @@ See [Product metrics](docs/METRICS.md) for the recommended dashboard hierarchy, 
 ```mermaid
 flowchart LR
     GA4["Google Analytics Data API"] --> IOS["iPhone companion app\nSwiftUI + Core Bluetooth"]
-    BACKEND["TravelCrumb backend"] --> IOS
+    BACKEND["Application backend"] --> IOS
     APPSTORE["App Store Connect\nSales and Trends"] --> IOS
     IOS -->|"BLE: compressed 1-bit frame"| DEVICE["ESP32-C6\nEmbedded Swift"]
     DEVICE --> CACHE["Cached app pages\n1 / 3"]
@@ -77,7 +79,7 @@ The device never stores Google OAuth tokens, service-account keys, or App Store 
 | Action input | Omron B3F-1000 tactile switch | 6 × 6 × 4.3 mm, 0.98 N, normally open |
 | Navigation input | Printed two-way rocker over two Omron B3F-1000 switches | Previous/next app dashboard with separate physical contacts |
 | Power switch | C&K 1101M2S5AQE2 slide switch | Right-angle SPDT with Q silver contacts rated 6 A at 28 V DC, used as a battery disconnect |
-| Enclosure | 3D-printed PETG with M2 inserts and screws | TravelCrumb-blue front/rear shell, matte-black controls and screen gasket, electronics tray, and positively retained battery door |
+| Enclosure | 3D-printed PETG with M2 inserts and screws | Cobalt-blue front/rear shell, matte-black controls and screen gasket, electronics tray, and positively retained battery door |
 
 ### Power behavior
 
@@ -116,8 +118,8 @@ The model uses manufacturer dimensions for the Waveshare display PCB, XIAO ESP32
 
 ### iPhone companion app
 
-1. The user connects the appropriate GA4 property, TravelCrumb backend, and App Store Connect reporting source.
-2. The app reads cohort data, crumb activity, registered-user totals, and current-month proceeds.
+1. The user connects the appropriate GA4 property, application backend, and App Store Connect reporting source.
+2. The app reads cohort data, primary-action activity, registered-user totals, and current-month proceeds.
 3. It calculates the product metrics and renders a 400 × 300 monochrome dashboard.
 4. It packages one or more named app pages, compresses each frame, and sends them in BLE characteristic chunks.
 
@@ -134,7 +136,7 @@ The model uses manufacturer dimensions for the Waveshare display PCB, XIAO ESP32
 - [ ] Bring up an Embedded Swift LED and SPI test on XIAO ESP32-C6
 - [ ] Show 400 × 300 full-refresh and partial-refresh test patterns
 - [ ] Transfer a 15 KB frame from iPhone over BLE and validate its CRC
-- [ ] Display real registered users, D1, D7, first-crumb conversion, crumb count, and current-month proceeds
+- [ ] Display real registered users, D1, D7, primary-action conversion, activity count, and current-month proceeds
 - [ ] Cache at least three app pages and navigate them with wraparound previous/next controls
 - [ ] Validate USB-C charging, battery-only boot, and low-voltage shutdown
 - [ ] Print the enclosure and check display, USB-C, action button, rocker, and battery-door tolerances
@@ -153,7 +155,6 @@ The model uses manufacturer dimensions for the Waveshare display PCB, XIAO ESP32
 - [Google Analytics Data API quickstart](https://developers.google.com/analytics/devguides/reporting/data/v1/quickstart) — GA4 authentication and `runReport`
 - [App Store Connect Sales and Trends metrics](https://developer.apple.com/help/app-store-connect/reference/reporting/sales-and-trends-metrics-and-dimensions/) — proceeds definition and reporting dimensions
 - [Apple Core Bluetooth](https://developer.apple.com/documentation/corebluetooth) — iPhone BLE communication
-- [TravelCrumb on the App Store](https://apps.apple.com/us/app/travelcrumb-travel-budget/id1330194842) — public product identity and app icon
 
 ## Repository structure
 
